@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"restapi-test/internal/config"
 	"restapi-test/internal/handlers"
 	"syscall"
 	"time"
@@ -30,6 +31,12 @@ func main() {
 		}
 	}()
 	log.Println("Serve start in http://localhost:8080")
+
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("HTTP port: %s", cfg.HTTP.Port)
 
 	<-quit
 	log.Println("Получен сигнал завершения. Инициализация Graceful Shutdown...")
